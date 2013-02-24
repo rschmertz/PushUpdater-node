@@ -8,9 +8,12 @@ exports.listen = function (httpServer) {
     ioServer.sockets.on('connection', function (socket) {
         socket.emit('alive', { date: (new Date().toString()) });
         console.log("Here's a console output");
+        socket.on('getGUID', function(data) {
+            console.log("getGUID called");
+            socket.emit('assignGUID', { localid: data.localid, guid: guidCounter++ });
+        });
         socket.on('subscribe', function(data) {
             console.log('Incoming subscription: ' + data.destination.toString());
-            socket.emit('assignGUID', { localid: data.localid, guid: guidCounter++ });
         })
     });
 };

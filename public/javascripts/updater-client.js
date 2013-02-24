@@ -26,10 +26,12 @@
                    guid: 4343525
                    }
                    /**/
+                //alert('in assignGUID');
                 var cbo = localCBMap[data.localid];
                 globalCBMap[data.guid] = cbo;
                 cbo.cb._updaterUse.guid = data.guid;
                 console.log("added guid %d from local %d", data.guid, data.localid);
+                _.each(cbo.cb._updaterUse.queuedSubs, function (f) {f()});
                 delete localCBMap[data.localid];
             });
         }
@@ -39,6 +41,7 @@
             if (!cb) cb = {}; // TODO: GET RID OF
             if (cb) {
                 cb._updaterUse = cb._updaterUse || {
+                    queuedSubs: []
                 };
             };
                     
@@ -49,33 +52,37 @@
             }
             var id = Math.ceil(Math.random() * 99999999)
             , subscriptionDone = false;
+
+            function checkGUID() {
+                if (!cb._updaterUse.guid) {
+                    if (!cb._updaterUse.guidPending) {
+                        socket.emit("getGUID", {localid: localID});
+                        cb._updaterUse.guidPending = true;
+                    };
+                    cb._updaterUse.queuedSubs.push(runSubscription);
+                } else {
+                    runSubscription();
+                }
+            };
             
             function runSubscription() {
                 var subscribeMsg = {
                     destination: dest
                     , message: msg
+                    , guid: cb._updaterUse.guid
                 }
-                if (cb._updaterUse.guid) {
-                    subscribeMsg.guid = cb._updaterUse.guid;
-                } else {
-                    subscribeMsg.localid = localID;
-                };
 
-                function completeSubscription() {
-                    socket.emit("subscribe", subscribeMsg);
-                    subscriptionDone = true;
-                    console.log('Done  subscription for ' + dest);
-                };
-
-                completeSubscription();
+                socket.emit("subscribe", subscribeMsg);
+                subscriptionDone = true;
+                console.log('Done  subscription for ' + dest);
             };
             if (!socket) {
                 createSocket();
             };
             if (socketAlive) {
-                runSubscription();
+                checkGUID();
             } else {
-                queuedCBs.push(runSubscription);
+                queuedCBs.push(checkGUID);
             };
 
             return id;
