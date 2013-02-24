@@ -11,6 +11,8 @@
             , subscriptionDone = false;
             
             function runSubscription() {
+                if (subscriptionDone)
+                    return;
                 socket.emit("subscribe", {destination: dest, message: msg});
                 subscriptionDone = true;
                 console.log('Done  subscription for ' + dest);
@@ -23,7 +25,8 @@
                     runSubscription();
                 });
                 
-            } else {
+            };
+            if (socketAlive) {
                 runSubscription();
             };
             return id;
