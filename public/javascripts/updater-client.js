@@ -1,9 +1,15 @@
 (function() {
     function getUpdater(io) {
-        var socket = null;
+        var socket = null
+        , socketAlive = false
+        , socketURL = 'http://localhost:3000';
+
+        // This is the main interfac e function for subscribing to data
         function updater(dest, cb, msg) {
             alert('in updater');
-            var id = Math.ceil(Math.random() * 99999999);
+            var id = Math.ceil(Math.random() * 99999999)
+            , subscriptionDone = false;
+            
             function runSubscription() {
                 socket.emit("subscribe", {destination: dest, message: msg});
             };
