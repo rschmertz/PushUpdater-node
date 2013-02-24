@@ -8,5 +8,9 @@ function doHello() {
 exports.doHello = doHello;
 
 exports.listen = function (httpServer) {
-    io.listen(httpServer);
+    ioServer = io.listen(httpServer);
+
+    ioServer.sockets.on('connection', function (socket) {
+        socket.emit('alive', { date: (new Date().toString()) });
+    });
 };
