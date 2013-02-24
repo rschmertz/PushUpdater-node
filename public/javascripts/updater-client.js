@@ -3,18 +3,45 @@
         var socket = null
         , socketAlive = false
         , queuedCBs = []
+        , clientCounter = 0
+        , localCBMap = {} // map based on page-local IDs, for temporary use
+        , globalCBMap = {} // map based on GUIDs from the server -- for permanent use
         , socketURL = 'http://localhost:3000';
 
         // This is the main interface function for subscribing to data
         function updater(dest, cb, msg) {
+            if (!cb) cb = {}; // TODO: GET RID OF
+            if (cb) {
+                cb._updaterUse = cb._updaterUse || {
+                };
+            };
+                    
+            var localID = clientCounter++;
             //alert('in updater');
+            localCBMap[localID] = {
+                cb: cb
+            }
             var id = Math.ceil(Math.random() * 99999999)
             , subscriptionDone = false;
             
             function runSubscription() {
-                socket.emit("subscribe", {destination: dest, message: msg});
-                subscriptionDone = true;
-                console.log('Done  subscription for ' + dest);
+                var subscribeMsg = {
+                    destination: dest
+                    , message: msg
+                }
+                if (cb._updaterUse.guid) {
+                    subscribeMsg.guid = cb._updaterUse.guid;
+                } else {
+                    subscribeMsg.localid = localID;
+                };
+
+                function completeSubscription() {
+                    socket.emit("subscribe", subscribeMsg);
+                    subscriptionDone = true;
+                    console.log('Done  subscription for ' + dest);
+                };
+
+                completeSubscription();
             };
             if (!socket) {
                 socket = io.connect('http://localhost:3000');
@@ -24,6 +51,20 @@
                     _.each(queuedCBs, function(runsub) {
                         runsub();
                     });
+                    queuedCBs = [];
+                });
+                socket.on('assignGUID', function (data) {
+                    /* data looks like: * /
+                    data = {
+                        localid: 1,
+                        guid: 4343525
+                    }
+                    /**/
+                    var cbo = localCBMap[data.localid];
+                    globalCBMap[data.guid] = cbo;
+                    cbo.cb._updaterUse.guid = data.guid;
+                    console.log("added guid %d from local %d", data.guid, data.localid);
+                    delete localCBMap[data.localid];
                 });
                 
             };
@@ -32,6 +73,7 @@
             } else {
                 queuedCBs.push(runSubscription);
             };
+
             return id;
         };
         return updater;
