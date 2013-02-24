@@ -8,6 +8,32 @@
         , globalCBMap = {} // map based on GUIDs from the server -- for permanent use
         , socketURL = 'http://localhost:3000';
 
+        function createSocket() {
+            if (socket) return;
+            socket = io.connect('http://localhost:3000');
+            socket.on('alive', function (data) {
+                console.log(data);
+                socketAlive = true;
+                _.each(queuedCBs, function(runsub) {
+                    runsub();
+                });
+                queuedCBs = [];
+            });
+            socket.on('assignGUID', function (data) {
+                /* data looks like: * /
+                   data = {
+                   localid: 1,
+                   guid: 4343525
+                   }
+                   /**/
+                var cbo = localCBMap[data.localid];
+                globalCBMap[data.guid] = cbo;
+                cbo.cb._updaterUse.guid = data.guid;
+                console.log("added guid %d from local %d", data.guid, data.localid);
+                delete localCBMap[data.localid];
+            });
+        }
+
         // This is the main interface function for subscribing to data
         function updater(dest, cb, msg) {
             if (!cb) cb = {}; // TODO: GET RID OF
@@ -44,29 +70,7 @@
                 completeSubscription();
             };
             if (!socket) {
-                socket = io.connect('http://localhost:3000');
-                socket.on('alive', function (data) {
-                    console.log(data);
-                    socketAlive = true;
-                    _.each(queuedCBs, function(runsub) {
-                        runsub();
-                    });
-                    queuedCBs = [];
-                });
-                socket.on('assignGUID', function (data) {
-                    /* data looks like: * /
-                    data = {
-                        localid: 1,
-                        guid: 4343525
-                    }
-                    /**/
-                    var cbo = localCBMap[data.localid];
-                    globalCBMap[data.guid] = cbo;
-                    cbo.cb._updaterUse.guid = data.guid;
-                    console.log("added guid %d from local %d", data.guid, data.localid);
-                    delete localCBMap[data.localid];
-                });
-                
+                createSocket();
             };
             if (socketAlive) {
                 runSubscription();
