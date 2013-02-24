@@ -1,5 +1,5 @@
 (function() {
-    function getUpdater(io) {
+    function getUpdater(io, _) {
         var socket = null
         , socketAlive = false
         , socketURL = 'http://localhost:3000';
@@ -34,9 +34,17 @@
         return updater;
     };
 
-    if (typeof io == 'undefined') {
-        define(['/socket.io/socket.io.js'],getUpdater);
+    if (typeof requirejs != 'undefined') {
+        requirejs.config({
+            shim: {
+                'underscore-min': {
+                    exports: '_'
+                }
+            }
+        });
+        define(['/socket.io/socket.io.js', 'underscore-min'],getUpdater);
     } else {
-        window.updater = getUpdater(io);
+        // require doesn't exist; you'll have to make sure the appropriate underscore.js file tag is present
+        window.updater = getUpdater(io, _);
     };
 })();
