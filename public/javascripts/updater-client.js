@@ -2,17 +2,16 @@
     function getUpdater(io, _) {
         var socket = null
         , socketAlive = false
+        , queuedCBs = []
         , socketURL = 'http://localhost:3000';
 
         // This is the main interface function for subscribing to data
         function updater(dest, cb, msg) {
-            alert('in updater');
+            //alert('in updater');
             var id = Math.ceil(Math.random() * 99999999)
             , subscriptionDone = false;
             
             function runSubscription() {
-                if (subscriptionDone)
-                    return;
                 socket.emit("subscribe", {destination: dest, message: msg});
                 subscriptionDone = true;
                 console.log('Done  subscription for ' + dest);
@@ -22,12 +21,16 @@
                 socket.on('alive', function (data) {
                     console.log(data);
                     socketAlive = true;
-                    runSubscription();
+                    _.each(queuedCBs, function(runsub) {
+                        runsub();
+                    });
                 });
                 
             };
             if (socketAlive) {
                 runSubscription();
+            } else {
+                queuedCBs.push(runSubscription);
             };
             return id;
         };
