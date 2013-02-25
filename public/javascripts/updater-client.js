@@ -34,11 +34,25 @@
                 _.each(cbo.cb._updaterUse.queuedSubs, function (f) {f()});
                 delete localCBMap[data.localid];
             });
+            socket.on('dataUpdate', function (data) {
+                /**
+                var sampleData =
+                    [{ clientID: 1, bundle: {dataType: 'points', data: []}},
+                     { clientID: 2, bundle: {dataType: 'events', data: []}}]
+                /**/
+                _.each(data, function (update) {
+                    var cbo = globalCBMap[update.clientID];
+                    if (typeof cbo.cb == 'function') {
+                        cbo.cb(update.bundle);
+                    } else {
+                        cbo.cb.update(update.bundle);
+                    }
+                });
+            });
         }
 
         // This is the main interface function for subscribing to data
         function updater(dest, cb, msg) {
-            if (!cb) cb = {}; // TODO: GET RID OF
             if (cb) {
                 cb._updaterUse = cb._updaterUse || {
                     queuedSubs: []
@@ -69,7 +83,7 @@
                 var subscribeMsg = {
                     destination: dest
                     , message: msg
-                    , guid: cb._updaterUse.guid
+                    , clientID: cb._updaterUse.guid
                 }
 
                 socket.emit("subscribe", subscribeMsg);
