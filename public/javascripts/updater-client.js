@@ -42,6 +42,14 @@
                 /**/
                 _.each(data, function (update) {
                     var cbo = globalCBMap[update.clientID];
+                    /*
+                      Support two tyes of callback:
+                        - a pure function 
+                        - an object with an 'update' method.
+
+                      Both the pure function and the 'update' method should have
+                      the same signature
+                     */
                     if (typeof cbo.cb == 'function') {
                         cbo.cb(update.bundle);
                     } else {
