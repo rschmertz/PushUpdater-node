@@ -1,10 +1,10 @@
 function pointHandler(data) {
-    console.log('pointhandler called');
+    console.log('pointhandler called, id = %d', pointHandler._updaterUse.guid);
 };
 
 var eventHandler = {
     update: function (data) {
-        console.log('eventhandler called');
+        console.log('eventhandler called, id = %d', this._updaterUse.guid);
     }
 }
 
