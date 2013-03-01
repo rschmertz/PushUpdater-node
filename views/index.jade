@@ -1,5 +1,9 @@
 extends layout
 
+block myscripts
+  script(data-main="javascripts/test-client", src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.4/require.min.js")
+
+
 block content
   h1= title
   p Welcome to #{title}
