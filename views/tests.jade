@@ -1,0 +1,15 @@
+doctype 5
+html
+  head
+    title Mocha tests
+    link(rel='stylesheet', href='/stylesheets/mocha.css')
+    //- script(src='/socket.io/socket.io.js')
+  body
+    h1 THIS IS MOCHA!!!
+    #mocha
+    script(src="javascripts/mocha.js")
+    script
+      mocha.setup('bdd')
+    //script(src="javascripts/my-tests.js")
+    script
+      //mocha.run()
