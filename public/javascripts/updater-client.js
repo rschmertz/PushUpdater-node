@@ -70,6 +70,10 @@
                       Both the pure function and the 'update' method should have
                       the same signature
                      */
+                    if (!cbo) {
+                        console.log("No callback object for ID %d", update.clientID);
+                        return;
+                    }
                     if (typeof cbo.cb == 'function') {
                         cbo.cb(update.bundle);
                     } else {
