@@ -34,6 +34,8 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/misc/:page', misc.misc);
 
+app.locals.pretty = true; // New in Express 3
+
 var server = http.createServer(app);
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

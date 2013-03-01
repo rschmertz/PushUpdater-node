@@ -3,15 +3,14 @@ html
   head
     title Mocha tests
     link(rel='stylesheet', href='/stylesheets/mocha.css')
-    //- script(src='/socket.io/socket.io.js')
   body
     h1 THIS IS MOCHA!!!
     #mocha
-    script(src="/javascripts/mocha.js")
-    script(src="/javascripts/chai.js")
+    //script(src="/javascripts/mocha.js")
+    //script(src="/javascripts/chai.js")
     script
       var should = chai.should();
       mocha.setup('bdd')
-    script(src="/javascripts/my-tests.js")
+    script(data-main="/javascripts/my-tests", src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.4/require.min.js")
     script
       mocha.run()

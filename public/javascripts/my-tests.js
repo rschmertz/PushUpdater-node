@@ -1,11 +1,29 @@
-//alert('ehy1!');
-//r myshould = require('should');
-describe('Array', function(){
-  describe('#indexOf()', function(){
-    it('should return -1 when the value is not present', function(){
-      [1,2,3].indexOf(5).should.equal(-1);
-      [1,2,3].indexOf(0).should.equal(2);
-    })
-  })
-})
+require(["mocha", "chai", "updater-client"], function(dummy1, dummy2, updater) {
+    updater = updater || window.updater;
 
+    //dater("events", eventHandler, { stream: 'sat5sim1'});
+
+    chai.should();
+    mocha.setup({
+        ui: 'bdd'
+        ,timeout: 7000
+    });
+
+    function pointstest1(done) {
+        function pointHandler(data) {
+
+            console.log('pointhandler called');
+            done();
+        };
+        updater("points", pointHandler, { get: ['temp1', 'temp2', 'batt1', 'batt2'] });
+    };
+
+    describe('Pointstest', function () {
+        it('should get a callback', pointstest1);
+        it('should continue after callback', function () {
+        });
+    });
+
+    mocha.run();
+    //pointstest1(function () {});
+});
