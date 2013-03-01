@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app"
     , "test": "echo not much of a test."
-    , "install": "make clientmocha"
+    , "install": "make"
   },
   "dependencies": {
     "express": "3.1.0",
@@ -16,6 +16,6 @@
   }
   , "devDependencies": {
     "mocha": "1.8.x"
-    , "should": "1.2.x"
+    , "chai": "*"
   }
 }

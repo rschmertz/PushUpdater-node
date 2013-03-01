@@ -7,9 +7,11 @@ html
   body
     h1 THIS IS MOCHA!!!
     #mocha
-    script(src="javascripts/mocha.js")
+    script(src="/javascripts/mocha.js")
+    script(src="/javascripts/chai.js")
     script
+      var should = chai.should();
       mocha.setup('bdd')
-    //script(src="javascripts/my-tests.js")
+    script(src="/javascripts/my-tests.js")
     script
-      //mocha.run()
+      mocha.run()

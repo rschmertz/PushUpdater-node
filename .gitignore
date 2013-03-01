@@ -7,4 +7,5 @@ npm-debug.log
 *.jav
 build
 public/javascripts/mocha.js
+public/javascripts/chai.js
 public/stylesheets/mocha.css
