@@ -1,3 +1,4 @@
+/* Deprecated: pure callback */
 function pointHandler(data) {
     console.log('pointhandler called, id = %d', pointHandler._updaterUse.guid);
 };

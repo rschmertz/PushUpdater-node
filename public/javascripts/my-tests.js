@@ -9,17 +9,25 @@ require(["mocha", "chai", "updater-client"], function(dummy1, dummy2, updater) {
         ,timeout: 7000
     });
 
-    function pointstest1(done) {
-        function pointHandler(data) {
+    function clienttest1(done) {
+        function clientHandler(data) {
 
-            console.log('pointhandler called');
+            console.log('clienthandler called');
             done();
         };
-        updater("points", pointHandler, { get: ['temp1', 'temp2', 'batt1', 'batt2'] });
+        updater("points", clientHandler, { get: ['temp1', 'temp2', 'batt1', 'batt2'] });
     };
 
-    describe('Pointstest', function () {
-        it('should get a callback', pointstest1);
+    describe('Updater test', function () {
+        it.skip('should handle subscription errors', function () {
+            function junkHandler(data) {
+                console.log('junkhandler called');
+            };
+        });
+    });
+
+    describe('Clienttest', function () {
+        it('should get a callback', clientstest1);
         it('should continue after callback', function () {
         });
     });
