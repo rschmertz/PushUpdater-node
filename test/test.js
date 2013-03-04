@@ -28,6 +28,7 @@ var should = chai.should();
 
 describe('DataProvider test', function () {
     var pointsSocket = null;
+    var pointsSocket2 = null;
     var eventsSocket = null;
     describe('Connection test', function () {
         it('should accept an initial connection', function () {
@@ -39,7 +40,6 @@ describe('DataProvider test', function () {
             eventsSocket.emit('data-provider', 'events');
         });
         it("shouldn't accept a connection with an existing provider name", function (done) {
-            var pointsSocket2 = null;
             var emitResponse = null;
             pointsSocket2 = io.connect('http://localhost:6668');
             pointsSocket2.emit('data-provider', 'points', function (data) {
@@ -51,5 +51,21 @@ describe('DataProvider test', function () {
                 done();
             }, 500);                
         });
+        it('should reject data updates from invalid source', function (done) {
+            /* i.e., a source that has not provided an updater name, or provided a duplicate one */
+            pointsSocket2.emit('dataUpdate', { AAPL: 645.5, KTOS: 13.42}, function (data) {
+                should.exist(data);
+                data.should.have.property('error');
+                done();
+            });
+        });
+        it.skip('should reject unrequested data updates', function (done) {
+            done();
+            //pointsSocket
+        });
+        /*
+        it('should accept data updates from valid provider', function (done) {
+            pointsSocket.emit('dataUpdate', 
+        */
     });
 });
