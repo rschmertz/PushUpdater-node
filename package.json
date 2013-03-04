@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app"
-    , "test": "echo not much of a test."
+    , "test": "mocha"
     , "install": "make"
   },
   "dependencies": {
