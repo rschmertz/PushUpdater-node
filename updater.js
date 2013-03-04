@@ -71,4 +71,24 @@ exports.listen = function (httpServer) {
             fakeDataQueue = [];
         }, 2200);
     });
+
+    // A socket for listening to data providers
+    var dataClient = io.listen(6668);
+    var providerList = {};
+
+    dataClient.sockets.on('connection', function (socket) {
+        socket.emit('alive', { date: (new Date().toString()) });
+        socket.on('data-provider', function (data, fn) {
+            console.log("we got here!!!");
+            // data looks like { name: "points" }
+            if (typeof providerList[data] == 'undefined') {
+                providerList[data] = true;
+            } else {
+                console.log("there's already a provider with that name.");
+                if (fn) {
+                    fn({error: "Already a provider with that name."});
+                };
+            };
+        });
+    });
 };
