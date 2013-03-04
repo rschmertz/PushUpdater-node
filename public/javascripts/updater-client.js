@@ -135,6 +135,8 @@
         };
 
         updater.unsubscribe = function (cb) {
+            var guid = cb._updaterUse.guid;
+            delete globalCBMap[guid]; // Wow, that was easy.  /Too/ easy.
             cb.unsubscribed();
         };
 

@@ -48,6 +48,7 @@ require(["mocha", "chai", "updater-client"], function(dummy1, chai, updater) {
             clientHandler.should.have.property('unsubscribed');
             updater.unsubscribe(clientHandler);
             setTimeout(function () {
+                console.log('==============done waiting for errors');
                 done();
             }, 7000);
             
