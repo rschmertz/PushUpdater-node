@@ -1,4 +1,4 @@
-require(["mocha", "chai", "updater-client"], function(dummy1, dummy2, updater) {
+require(["mocha", "chai", "updater-client"], function(dummy1, chai, updater) {
     updater = updater || window.updater;
 
     //dater("events", eventHandler, { stream: 'sat5sim1'});
@@ -27,7 +27,7 @@ require(["mocha", "chai", "updater-client"], function(dummy1, dummy2, updater) {
     });
 
     describe('Clienttest', function () {
-        it('should get a callback', clientstest1);
+        it('should get a callback', clienttest1);
         it('should continue after callback', function () {
         });
     });
