@@ -10,10 +10,12 @@ require(["mocha", "chai", "updater-client"], function(dummy1, chai, updater) {
     });
 
     function clienttest1(done) {
-        function clientHandler(data) {
+        var clientHandler = {
+            update: function(data) {
 
-            console.log('clienthandler called');
-            done();
+                console.log('clienthandler called');
+                done();
+            }
         };
         updater("points", clientHandler, { get: ['temp1', 'temp2', 'batt1', 'batt2'] });
     };
