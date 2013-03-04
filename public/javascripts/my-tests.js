@@ -6,15 +6,22 @@ require(["mocha", "chai", "updater-client"], function(dummy1, chai, updater) {
     chai.should();
     mocha.setup({
         ui: 'bdd'
-        ,timeout: 7000
+        ,timeout: 9000
     });
 
+    var clientHandler;
+
     function clienttest1(done) {
-        var clientHandler = {
+        clientHandler = {
             update: function(data) {
 
                 console.log('clienthandler called');
                 done();
+            }
+            , unsubscribed: function (success) {
+                this.update = function (data) {
+                    throw('got an update when they should have stopped');
+                };
             }
         };
         updater("points", clientHandler, { get: ['temp1', 'temp2', 'batt1', 'batt2'] });
@@ -31,6 +38,19 @@ require(["mocha", "chai", "updater-client"], function(dummy1, chai, updater) {
     describe('Clienttest', function () {
         it('should get a callback', clienttest1);
         it('should continue after callback', function () {
+        });
+        it('should honor unsubscribe', function (done) {
+            /*
+              1. call unsubscribe
+              2. after 1 sec, replace update cb with one that throws an error
+              3. wait 7 sec for test completion
+              */
+            clientHandler.should.have.property('unsubscribed');
+            updater.unsubscribe(clientHandler);
+            setTimeout(function () {
+                done();
+            }, 7000);
+            
         });
     });
 

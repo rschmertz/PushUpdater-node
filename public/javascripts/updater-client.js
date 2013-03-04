@@ -133,6 +133,11 @@
 
             return id;
         };
+
+        updater.unsubscribe = function (cb) {
+            cb.unsubscribed();
+        };
+
         return updater;
     };
 
