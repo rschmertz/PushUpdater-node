@@ -59,9 +59,19 @@ describe('DataProvider test', function () {
                 done();
             });
         });
-        it.skip('should reject unrequested data updates', function (done) {
-            done();
-            //pointsSocket
+        it('should reject unrequested data updates', function (done) {
+            var emitResponse = null;
+            pointsSocket.emit('dataUpdate', { AAPL: 645.5, KTOS: 13.42}, function (data) {
+                emitResponse = data;
+            });
+            console.log("before settimeout");
+            setTimeout(function () {
+                console.log("inside settimeout");
+                should.exist(emitResponse);
+                emitResponse.should.have.property('error');
+                emitResponse.error.should.equal('No data requested');
+                done();
+            }, 500);
         });
         /*
         it('should accept data updates from valid provider', function (done) {
