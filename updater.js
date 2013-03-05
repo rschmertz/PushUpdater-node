@@ -90,5 +90,14 @@ exports.listen = function (httpServer) {
                 };
             };
         });
+        socket.on('dataUpdate', function (data, fn) {
+            if (typeof providerList[data] == 'undefined') {
+                if (fn) {
+                    fn({error: 'Your data provider has not provided a unique name'});
+                    return;
+                } else {
+                };
+            };
+        });
     });
 };
