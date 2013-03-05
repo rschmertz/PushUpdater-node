@@ -77,12 +77,14 @@ exports.listen = function (httpServer) {
     var providerList = {};
 
     dataClient.sockets.on('connection', function (socket) {
+
         socket.emit('alive', { date: (new Date().toString()) });
         socket.on('data-provider', function (data, fn) {
             console.log("we got here!!!");
             // data looks like { name: "points" }
             if (typeof providerList[data] == 'undefined') {
                 providerList[data] = true;
+                socket.set('sourceName', data);
             } else {
                 console.log("there's already a provider with that name.");
                 if (fn) {
@@ -91,13 +93,13 @@ exports.listen = function (httpServer) {
             };
         });
         socket.on('dataUpdate', function (data, fn) {
-            if (typeof providerList[data] == 'undefined') {
-                if (fn) {
-                    fn({error: 'Your data provider has not provided a unique name'});
-                    return;
+            socket.get('sourceName', function (err, name) {
+                if (!name) {
+                    fn && fn({error: 'Your data provider has not provided a unique name'});
                 } else {
+                    console.log("Source <%s> provided update %d", name, data);
                 };
-            };
+            })
         });
     });
 };
