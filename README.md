@@ -21,9 +21,9 @@ where `data` is the data received from the server and routed to that client.
 
 A request for a subscription is made by calling the updater method:
 
-  updater(destination, callback, requestMsg)
+    updater(destination, callback, requestMsg)
 
-`destination` is a string identifying a data source that the server is serving up.  For example, if an instance of PushUpdater is serving up a stock ticker under the name "stockes", and tweets under the name "tweets", a client could pass "stocks" to indicate the source the request is intended for.
+`destination` is a string identifying a data source that the server is serving up.  For example, if an instance of PushUpdater is serving up a stock ticker under the name "stocks", and tweets under the name "tweets", a client could pass "stocks" to indicate the source the request is intended for.
 
 `callback` is a client object as described above.
  
