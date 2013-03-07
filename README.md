@@ -5,6 +5,12 @@ A node/socket.io-based component to add real-time updating of data from multiple
 
 This JavaScript-based server can connect multiple client apps, on multiple pages/physical clients, to any of various data sources provided on the server.  It relies on the Socket.io library's ability to use bidirectional WebSockets when the browser supports it, and to fall back to other realtime or near-realtime update mechanisms when WebSockets are not available.
 
+This is currently in pre-alpha state.  It is under active development, using TDD with the Mocha TDD framework.
+
+Check it Out!
+==
+This works on Unix/Linux systems.
+
 Data Sources
 ============
 
