@@ -9,7 +9,15 @@ This is currently in pre-alpha state.  It is under active development, using TDD
 
 Check it Out!
 ==
-This works on Unix/Linux systems.
+This should work on most Unix/Linux systems, provided node.js and 'make' are installed.
+
+1. Clone this repository
+2. Install the Node modules
+
+    npm install
+
+3. Start the app
+4. Open the main page
 
 Data Sources
 ============
