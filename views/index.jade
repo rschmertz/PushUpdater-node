@@ -1,13 +1,14 @@
 extends layout
 
 block myscripts
+  script(src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js")
   script(data-main="javascripts/test-client", src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.4/require.min.js")
 
 
 block content
   h1= title
   //- p Welcome to #{title}
-  #pointupdater.border hello
+  #pointupdater.border(data-bind="text: value")
   table#eventoutput.border(width="800px")
     thead
       tr
