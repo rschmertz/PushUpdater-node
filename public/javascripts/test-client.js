@@ -18,9 +18,12 @@ var eventHandler = {
     update: function (update) {
         console.log('eventhandler called, id = %d', this._updaterUse.guid);
         this.list.push({
-            even: eventCounter % 2 == 0 ? true : false
+            even: eventCounter++ % 2 == 0 ? true : false
             , data: update.data
         });
+        if (this.list().length > 10) {
+            this.list.shift();
+        };
     }
     , list: ko.observableArray()
 }
