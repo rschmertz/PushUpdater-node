@@ -16,7 +16,7 @@ block content
         th Message
         th(width="20%") Time
     tbody(data-bind="foreach: list")
-      tr
+      tr(data-bind="css: { even: even, odd: !even }")
         td(data-bind="text: data.randomValue")
         td(data-bind="text: data.message")
         td(data-bind="text: data.date")
