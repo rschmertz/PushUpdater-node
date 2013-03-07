@@ -15,15 +15,17 @@ ko.applyBindings(pointHandler, document.getElementById("pointupdater"))
 var eventCounter = 0;
 
 var eventHandler = {
-    update: function (data) {
+    update: function (update) {
         console.log('eventhandler called, id = %d', this._updaterUse.guid);
         this.list.push({
             even: eventCounter % 2 == 0 ? true : false
-            , data: data
+            , data: update.data
         });
     }
     , list: ko.observableArray()
 }
+
+ko.applyBindings(eventHandler, document.getElementById("eventoutput"))
 
 require(["updater-client"], function(updater) {
     updater = updater || window.updater;

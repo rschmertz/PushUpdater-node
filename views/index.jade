@@ -9,14 +9,14 @@ block content
   h1= title
   //- p Welcome to #{title}
   #pointupdater.border(data-bind="text: value")
-  table#eventoutput.border(width="800px")
+  table#eventoutput.border(width="900px")
     thead
       tr
         th(width="10%") Random number
         th Message
-        th(width="10%") Time
-    tbody
+        th(width="20%") Time
+    tbody(data-bind="foreach: list")
       tr
-        td "0.5"
-        td "This is a standin"
-        td "12:45"
+        td(data-bind="text: data.randomValue")
+        td(data-bind="text: data.message")
+        td(data-bind="text: data.date")

@@ -22,6 +22,19 @@ var fdsfdfsdfsd = 0
 , fakeDataQueue = []
 , io = require('socket.io');
 
+var montyPythonQuotes = [
+    "She turned me into a newt!"
+    , "Then you must cut down the mightiest tree in the forest... with... a herring!"
+    , "Now go away or I shall taunt you a second time."
+    , "It's just a flesh wound."
+    , "Oh, king eh? Very nice. And how'd you get that, eh? By exploiting the workers. By hanging on to outdated imperialist dogma which perpetuates the economic and social differences in our society."
+    , "Listen, strange women lyin' in ponds distributin' swords is no basis for a system of government."
+    , "Oh, but you can't expect to wield supreme executive power just because some watery tart threw a sword at you."
+    , "On second thought, let's not go to Camelot. It is a silly place."
+    , "What... is the air-speed velocity of an unladen swallow? "
+    , 'We are now the Knights who say... "Ekki-Ekki-Ekki-Ekki-PTANG. Zoom-Boing. Z\'nourrwringmm".'
+];
+
 function addFakeData(guidList) {
     var rand = Math.random();
     var destination;
@@ -30,11 +43,19 @@ function addFakeData(guidList) {
             data: rand
         }
     }
+
     if (fakeDataQueue.length < 6) {
         if (rand > 0.5) {
             destination = 'points';
         } else {
             destination = 'events';
+            var index = Math.floor(20 * rand);
+            var date = new Date();
+            msg.bundle.data = {
+                message: montyPythonQuotes[index]
+                , randomValue: 2 * rand
+                , date: date.toString()
+            }
         }
         for (var k in guidList) {
             console.log("{%s: %s}", k, guidList[k]);
