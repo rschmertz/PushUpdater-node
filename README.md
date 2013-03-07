@@ -18,6 +18,7 @@ This should work on most Unix/Linux systems, provided node.js and 'make' are ins
 
 3. Start the app
 4. Open the main page
+5. You may also be interested in the Mocha-based client-side test kit:
 
 Data Sources
 ============
