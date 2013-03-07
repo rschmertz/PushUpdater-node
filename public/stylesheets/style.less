@@ -1,3 +1,7 @@
+@bordercolor: #777;
+@borderradius: 4px;
+@innerradius: (@borderradius / 2);
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -5,4 +9,49 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+
+.border {
+  border: solid 2px @bordercolor;
+  margin: 3px;
+  //padding: 5px;
+  border-radius: @borderradius;
+}
+
+#pointupdater {
+  font-size: 36px;
+  width: 80px;
+  margin-bottom: 40px;
+  padding: 10px;
+}
+
+table {
+  //border-collapse: collapse;
+  background: @bordercolor;
+}
+
+th {
+  background: #bbb;
+  //border-bottom: solid 2px;
+}
+
+td {
+  background: white;
+}
+
+.even {
+  background: #ddd;
+}
+
+table tr:last-child td:first-child {
+    -moz-border-radius-bottomleft:@innerradius;
+    -webkit-border-bottom-left-radius:@innerradius;
+    border-bottom-left-radius:@innerradius
+}
+
+table tr:last-child td:last-child {
+    -moz-border-radius-bottomright:@innerradius;
+    -webkit-border-bottom-right-radius:@innerradius;
+    border-bottom-right-radius:@innerradius
 }

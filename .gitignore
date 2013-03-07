@@ -8,4 +8,4 @@ npm-debug.log
 build
 public/javascripts/mocha.js
 public/javascripts/chai.js
-public/stylesheets/mocha.css
+public/stylesheets/*.css

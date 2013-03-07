@@ -6,4 +6,16 @@ block myscripts
 
 block content
   h1= title
-  p Welcome to #{title}
+  //- p Welcome to #{title}
+  #pointupdater.border hello
+  table#eventoutput.border(width="800px")
+    thead
+      tr
+        th(width="10%") Random number
+        th Message
+        th(width="10%") Time
+    tbody
+      tr
+        td "0.5"
+        td "This is a standin"
+        td "12:45"
