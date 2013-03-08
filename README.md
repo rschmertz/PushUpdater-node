@@ -17,8 +17,9 @@ This should work on most Unix/Linux systems, provided node.js and 'make' are ins
     npm install
 
 3. Start the app
-4. Open the main page
-5. You may also be interested in the Mocha-based client-side test kit:
+    npm start
+4. Open the main page (http://localhost:3030/)
+5. You may also be interested in the Mocha-based client-side test kit; click on the link that says "See the test client".
 
 Data Sources
 ============
@@ -28,7 +29,7 @@ _Under Construction_
 Client Subscription
 ===================
 
-A 'client' must be an object wich provides a method called 'update'.  The signature looks like
+A 'client' must be an object which provides a method called 'update'.  The signature looks like
 
     myClient.update(data)
     
