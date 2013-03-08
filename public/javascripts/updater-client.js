@@ -25,12 +25,11 @@
         , queuedCBs = []
         , clientCounter = 0
         , localCBMap = {} // map based on page-local IDs, for temporary use
-        , globalCBMap = {} // map based on GUIDs from the server -- for permanent use
-        , socketURL = 'http://localhost:3000';
+        , globalCBMap = {}; // map based on GUIDs from the server -- for permanent use
 
         function createSocket() {
             if (socket) return;
-            socket = io.connect('http://localhost:3000');
+            socket = io.connect();
             socket.on('alive', function (data) {
                 console.log(data);
                 socketAlive = true;
